@@ -71,8 +71,10 @@ void G4ParticleHPFissionFS::Init(G4double A, G4double Z, G4int M, G4String& dirN
 
 G4HadFinalState* G4ParticleHPFissionFS::ApplyYourself(const G4HadProjectile& theTrack)
 {
-  // Because it may change by UI command
-  produceFissionFragments = G4ParticleHPManager::GetInstance()->GetProduceFissionFragments();
+  // Because it may change by UI command. However, do not set unless FS data is 
+  // available.
+  produceFissionFragments = 
+    (G4ParticleHPManager::GetInstance()->GetProduceFissionFragments() && theFF.HasFSData());
 
   // prepare neutron
   if (theResult.Get() == nullptr) theResult.Put(new G4HadFinalState);
